@@ -1,0 +1,28 @@
+{
+  "name": "json-story",
+  "version": "0.1.0",
+  "description": "JSON to narrate story",
+  "main": "dist/index.js",
+  "types": "dist/index",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc && npm run lint",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "tsc": "tsc"
+  },
+  "keywords": [
+    "JSON",
+    "texte",
+    "Naratif"
+  ],
+  "author": "Sebastien_G",
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "@reactivex/rxjs": "^6.5.2",
+    "rxjs": "^6.5.2"
+  },
+  "devDependencies": {
+    "typescript": "^3.5.3",
+    "tslint": "^5.18.0"
+  }
+}
