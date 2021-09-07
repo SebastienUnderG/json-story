@@ -1,6 +1,8 @@
 {
   "init": {
   },
+  "_init": {
+  },
   "start": {
     "label": "Intro",
     "user": "Sebastien",
@@ -11,8 +13,11 @@
     "message": "Coucou c'est le core",
     "next": "suite"
   },
-  "suite" : {
+  "suite": {
     "user": "Le Narateur",
     "message": "C'est la suite"
+  },
+  "shoot": {
+    "label": "SHOOT !!!"
   }
 }
