@@ -1,4 +1,4 @@
-export let Ordre: string[] = [
+export const Ordre: string[] = [
     "_init",
     "_user",
     "_label",
@@ -6,6 +6,23 @@ export let Ordre: string[] = [
     "_start",
     "_action",
     "_timeNext",
+    "_next"
+];
+
+export const OrdreAction: string[] = [
+    "_init",
+    "_action",
+];
+
+export const OrdreString: string[] = [
+    "_user",
+    "_label",
+    "_message",
+    "_timeNext"
+];
+
+export const OrdreFollow: string[] = [
+    "_start",
     "_next"
 ];
 
@@ -17,13 +34,13 @@ export class GroupeLabel {
 }
 
 export class Etape {
-    init: Story;
-    start: Story;
-    restart: Story;
-    core: Story;
-    end: Story;
-    endAgain: Story;
-    terminat: Story;
+    _init: Story;
+    _start: Story;
+    _restart: Story;
+    _core: Story;
+    _end: Story;
+    _endAgain: Story;
+    _terminat: Story;
 
 }
 

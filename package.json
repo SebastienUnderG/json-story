@@ -9,7 +9,7 @@
     "build": "tsc && npm run lint",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "tsc": "tsc",
-    "runi" : "node dist/index.js"
+    "executer": "node dist/index.js"
   },
   "keywords": [
     "JSON",

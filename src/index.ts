@@ -1,6 +1,4 @@
-import {ActionStory, Etape, Story, Ordre} from "./phase";
-
-// module.exports = read;
+import {Etape, Story, Ordre, OrdreAction, OrdreString, OrdreFollow} from "./phase";
 
 /** Scenario par défault */
 
@@ -51,94 +49,41 @@ export class Conversation {
 
     }
 
-    iterator(step: string[], context: Story) {
-        let index: number = 0;
-        while (index < Ordre.length) {
 
-            this.search(step, context, Ordre[index], () => {
-                // variable ?
-                console.log("---> OK", Ordre[index]);
+    IsObjectChild(child: any): boolean {
 
-            });
-            index++
+        if (typeof child === "string") {
+            return false
+
+        } else if (Object.keys(child).length > 0) {
+            return false
+
         }
-    }
-
-    setStory(story: Etape[]) {
-        // this.story = story;
-        // this.init(this.story);
-    }
-
-    talk() {
 
     }
 
-    init(context: Story) {
-        this.search(null, context, 'init', () => {
-            // variable ?
-            console.log("---> OK");
+    search(step: string[], context: Story, key: string, callback?: any, error?: string): boolean {
 
-
-        });
-    }
-
-    start() {
-
-    }
-
-
-    search(step: string[], context: Story, key: string, callback?: any, error?: string) {
         if (this.isIncludes(context, key)) {
             callback();
-            // child(context[key]);
-            console.log("search ->", context[key], Object.keys(context), Object.keys(context[key]));
 
-            if (typeof context[key] === "string") {
+            console.log("search -> choisir la suite",
+                context[key],
+                Object.keys(context),
+                Object.keys(context[key])
+            );
 
-                console.log("string>>>", context[key]);
-
-                // look en local
-                let parent: Story;
-                let parent_: Story = this.story;
-                let step_: number = 0;
-                console.log("step_", step_, step[step_], step.length);
-                if (step.length > 0) {
-                    while (step_ < step.length) {
-                        console.log(this.story, parent_[step[step_]]);
-                        parent_ = parent_[step[step_]];
-                        parent = parent_;
-                        step_++;
-                        console.log("parent", parent);
-                    }
-                }
+            // this.LinkNext(step, context, key);
 
 
-                this.search(step, context, context[key], () => {
-                    // variable ?
-                    console.log("---> local child OK");
+            // Conversation.IsObjectChild(context[key]);
 
-                });
-
-                // look en child
-                // parent en Seconde position
-                this.search(step, parent, context[key], () => {
-                    // variable ?
-                    console.log("---> parent child OK");
-
-                });
-
-
-            } else if (Object.keys(context[key]).length > 0) {
-
-                // NEXT =>
-                step.push(key);
-                this.iterator(step, context[key]);
-
-            }
-
+            return true
         } else {
-            console.log(error ? error : ('Missing ' + key + ' KEYS'));
+            // console.log(error ? error : ('Missing ' + key + ' KEYS'));
+            return false
         }
+
     }
 
     isIncludes(story: Story, key: string): boolean {
@@ -147,39 +92,137 @@ export class Conversation {
         } else {
             return false;
         }
+    }
 
+    whichAction(key: string, ordreAction: any, ordreString: any, ordreFollow: any) {
+        if (OrdreAction.includes(key)) {
+            ordreAction();
+        } else if (OrdreString.includes(key)) {
+            ordreString();
+        } else if (OrdreFollow.includes(key)) {
+            ordreFollow();
+        }
+    }
+
+
+    iterator(step: string[], context: Story) {
+        let index: number = 0;
+
+        while (index < Ordre.length) {
+
+            if (this.search(step, context, Ordre[index], () => {
+            })) {
+
+
+                if (this.LinkNextObject(step, context, Ordre[index])) {
+                    console.log("Object >>", context[Ordre[index]]);
+
+                    step.push(Ordre[index]);
+                    this.iterator(step, context[Ordre[index]]);
+                } else {
+                    console.log("string >>", context[Ordre[index]]);
+
+                    const parent: Story = this.foundParents(step, context, Ordre[index]);
+
+                    console.log("parent", parent);
+                }
+
+
+
+                console.log("IsObjectChild --> ", this.IsObjectChild(context[Ordre[index]]));
+
+                this.whichAction(Ordre[index],
+                    () => {
+                        console.log("---> OK ACTION", Ordre[index]);
+                    },
+                    () => {
+                        console.log("---> OK STRING", Ordre[index]);
+                    },
+                    () => {
+                        console.log("---> OK FOLLOW", Ordre[index]);
+                    });
+
+
+            }
+            index++
+        }
 
     }
 
-    isVariable() {
+    foundParents(step: string[], context: Story, key: string): Story {
+
+        // look en local
+        let parent: Story;
+        let parent_: Story = this.story;
+        let step_: number = 0;
+
+        console.log("step_", step_, step[step_], step.length);
+
+
+        if (step.length > 0) {
+            while (step_ < step.length) {
+                console.log(this.story, parent_[step[step_]]);
+                parent_ = parent_[step[step_]];
+                parent = parent_;
+                step_++;
+                console.log("parent", parent);
+            }
+        }
+
+
+        this.search(step, context, context[key], () => {
+            // variable ?
+            console.log("---> local child OK", step, context, context[key]);
+
+        });
+
+        // look en child
+        // parent en Seconde position
+        this.search(step, parent, context[key], () => {
+            // variable ?
+            console.log("---> parent child OK", step, parent, context[key]);
+
+        });
+
+        return parent;
+    }
+
+    LinkNext(step: string[], context: Story, key: string) {
+        console.log("LinkNext");
+
+        if (typeof context[key] === "string") {
+
+            console.log("string >>", context[key]);
+
+            const parent: Story = this.foundParents(step, context, key);
+
+            console.log("parent", parent);
+
+        } else if (Object.keys(context[key]).length > 0) {
+
+            // NEXT => vers un vrai object
+
+            console.log("Object >>", context[key]);
+
+            step.push(key);
+            this.iterator(step, context[key]);
+
+        }
 
     }
 
-    child(context: Etape[]) {
-        // Object.keys(context).forEach(e => this.search(e, context));
+    LinkNextObject(step: string[], context: Story, key: string): boolean {
+        console.log("LinkNextObject");
+        if (typeof context[key] === "string") {
+            return false;
+        } else if (Object.keys(context[key]).length > 0) {
+            return true;
+        }
     }
 
 
 }
 
-/*
-function read(story: Map<string, any>): Observable<string> {
 
-    if (isIncludes(story, 'init')) {
-        child(story['init']);
-    } else {
-        console.log('Missing init KEYS');
-    }
-
-
-    return null;
-}
- */
-
-/*
-    export class Story {
-    }
-*/
-
-
-let exemple: Conversation = new Conversation("./exemple.json");
+// const exemple: Conversation = new Conversation("./exemple.json");
+new Conversation("./exemple.json");

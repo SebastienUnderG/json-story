@@ -1,0 +1,25 @@
+{
+  "init": {
+  },
+  "_init": {
+    "_label" : "INIT OK",
+    "_start" : "shoot"
+  },
+  "_start": {
+    "label": "Intro",
+    "user": "Sebastien",
+    "message": "je vous souhaite le bienvenue",
+    "next": ""
+  },
+  "_core": {
+    "message": "Coucou c'est le core",
+    "next": "suite"
+  },
+  "suite": {
+    "user": "Le Narateur",
+    "message": "C'est la suite"
+  },
+  "shoot": {
+    "_label": "SHOOT !!!"
+  }
+}
