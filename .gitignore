@@ -10,3 +10,4 @@ dist/phase.d.ts
 dist/index.js.map
 dist/index.js
 dist/index.d.ts
+package-lock.json

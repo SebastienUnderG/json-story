@@ -113,24 +113,33 @@ export class Conversation {
             if (this.search(step, context, Ordre[index], () => {
             })) {
 
-
                 if (this.LinkNextObject(step, context, Ordre[index])) {
                     console.log("Object >>", context[Ordre[index]]);
 
                     step.push(Ordre[index]);
+
                     this.iterator(step, context[Ordre[index]]);
                 } else {
                     console.log("string >>", context[Ordre[index]]);
 
+
+
                     const parent: Story = this.foundParents(step, context, Ordre[index]);
 
                     console.log("parent", parent);
+
+
                 }
 
 
+                // console.log("IsObjectChild --> ", this.IsObjectChild(context[Ordre[index]]));
 
-                console.log("IsObjectChild --> ", this.IsObjectChild(context[Ordre[index]]));
-
+                console.log("-------->", context[Ordre[index]]);
+                if (this.IsObjectChild(context[Ordre[index]])) {
+                    console.log("IsObjectChild --> YES");
+                } else {
+                    console.log("IsObjectChild --> NO");
+                }
                 this.whichAction(Ordre[index],
                     () => {
                         console.log("---> OK ACTION", Ordre[index]);
