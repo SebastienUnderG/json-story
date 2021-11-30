@@ -51,15 +51,11 @@ export class Conversation {
 
 
     IsObjectChild(child: any): boolean {
-
         if (typeof child === "string") {
             return false
-
         } else if (Object.keys(child).length > 0) {
             return false
-
         }
-
     }
 
     search(step: string[], context: Story, key: string, callback?: any, error?: string): boolean {
@@ -234,4 +230,4 @@ export class Conversation {
 
 
 // const exemple: Conversation = new Conversation("./exemple.json");
-new Conversation("./exemple.json");
+// new Conversation("./exemple.json");

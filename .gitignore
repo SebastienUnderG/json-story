@@ -11,3 +11,10 @@ dist/index.js.map
 dist/index.js
 dist/index.d.ts
 package-lock.json
+package-lock.json
+dist/phase.js
+dist/phase.d.ts
+dist/index.js.map
+dist/index.js
+dist/index.d.ts
+dist/phase.js.map
