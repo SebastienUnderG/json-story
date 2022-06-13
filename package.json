@@ -21,7 +21,6 @@
   "license": "GPL-3.0-or-later",
   "dependencies": {
     "@reactivex/rxjs": "^6.6.7",
-    "npm": "^7.21.1",
     "rxjs": "^7.3.0"
   },
   "devDependencies": {
